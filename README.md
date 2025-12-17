@@ -33,6 +33,11 @@ in the build directory:
 ./pacman
 ```
 
+with nix:
+```bash
+nix run github:floooh/pacman.c
+```
+
 On Windows, the executable is in a subdirectory:
 
 ```
