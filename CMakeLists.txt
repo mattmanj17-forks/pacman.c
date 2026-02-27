@@ -22,7 +22,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL Darwin)
     target_link_libraries(sokol
         "-framework QuartzCore"
         "-framework Cocoa"
-        "-framework MetalKit"
         "-framework Metal"
         "-framework OpenGL"
         "-framework AudioToolbox")
