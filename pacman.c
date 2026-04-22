@@ -135,6 +135,7 @@
 #include "sokol_audio.h"
 #include "sokol_log.h"
 #include "sokol_glue.h"
+#include "sokol_letterbox.h"
 #include <assert.h>
 #include <string.h> // memset()
 #include <stdlib.h> // abs()
@@ -3032,23 +3033,18 @@ static void gfx_add_fade_vertices(void) {
 
 // adjust the viewport so that the aspect ratio is always correct
 static void gfx_adjust_viewport(int canvas_width, int canvas_height) {
-    const float canvas_aspect = (float)canvas_width / (float)canvas_height;
     const float playfield_aspect = (float)DISPLAY_TILES_X / (float)DISPLAY_TILES_Y;
-    int vp_x, vp_y, vp_w, vp_h;
     const int border = 10;
-    if (playfield_aspect < canvas_aspect) {
-        vp_y = border;
-        vp_h = canvas_height - 2*border;
-        vp_w = (int)(canvas_height * playfield_aspect - 2*border);
-        vp_x = (canvas_width - vp_w) / 2;
-    }
-    else {
-        vp_x = border;
-        vp_w = canvas_width - 2*border;
-        vp_h = (int)(canvas_width / playfield_aspect - 2*border);
-        vp_y = (canvas_height - vp_h) / 2;
-    }
-    sg_apply_viewport(vp_x, vp_y, vp_w, vp_h, true);
+    const slbx_viewport vp = slbx_letterbox(canvas_width, canvas_height, &(slbx_letterbox_desc){
+        .content_aspect_ratio = playfield_aspect,
+        .border = {
+            .left = border,
+            .right = border,
+            .top = border,
+            .bottom = border,
+        }
+    });
+    sg_apply_viewport(vp.x, vp.y, vp.width, vp.height, true);
 }
 
 // handle fadein/fadeout
