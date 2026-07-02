@@ -722,6 +722,7 @@ sapp_desc sokol_main(int argc, char* argv[]) {
         .event_cb = input,
         .width = DISPLAY_TILES_X * TILE_WIDTH * 2,
         .height = DISPLAY_TILES_Y * TILE_HEIGHT * 2,
+        .depth_format = SAPP_PIXELFORMAT_NONE,
         .window_title = "pacman.c",
         .icon.sokol_default = true,
         .logger.func = slog_func,
